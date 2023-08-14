@@ -62,7 +62,7 @@ func (controller UserConstroller) Store(ctx *gin.Context) {
 	var req entity.User
 
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		resp := helper.Response("Failed to crate User", http.StatusBadRequest, err.Error())
+		resp := helper.Response("Gagal membuat user", http.StatusBadRequest, err.Error())
 
 		ctx.JSON(http.StatusBadRequest, resp)
 
@@ -72,7 +72,7 @@ func (controller UserConstroller) Store(ctx *gin.Context) {
 	_, err := controller.service.FindByUsername(req.Username)
 
 	if err == nil {
-		resp := helper.Response("Username alredy taken", http.StatusBadRequest, nil)
+		resp := helper.Response("Username sudah digunakan dengan user lain", http.StatusBadRequest, nil)
 
 		ctx.JSON(http.StatusBadRequest, resp)
 
@@ -82,7 +82,7 @@ func (controller UserConstroller) Store(ctx *gin.Context) {
 	_, err2 := controller.service.FindByEmail(req.Email)
 
 	if err2 == nil {
-		resp := helper.Response("E-Mail alredy taken", http.StatusBadRequest, nil)
+		resp := helper.Response("E-Mail sudah digunakan dengan user lain", http.StatusBadRequest, nil)
 
 		ctx.JSON(http.StatusBadRequest, resp)
 
@@ -92,7 +92,7 @@ func (controller UserConstroller) Store(ctx *gin.Context) {
 	user, err := controller.service.Insert(req)
 
 	if err != nil {
-		resp := helper.Response("Failed to create User", http.StatusBadRequest, err.Error())
+		resp := helper.Response("Gagal membuat user", http.StatusBadRequest, err.Error())
 
 		ctx.JSON(http.StatusBadRequest, resp)
 

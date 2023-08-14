@@ -44,7 +44,7 @@ func (controller AuthController) Login(ctx *gin.Context) {
 	findUser, _ := controller.service.FindByUsername(loginReq.Username)
 
 	if findUser.ID == 0 {
-		resp := helper.Response("The Username or Password is Incorrect", http.StatusNotFound, nil)
+		resp := helper.Response("Username atau password salah", http.StatusNotFound, nil)
 
 		ctx.JSON(http.StatusNotFound, resp)
 
@@ -54,7 +54,7 @@ func (controller AuthController) Login(ctx *gin.Context) {
 	loggedIn, err := controller.auth.Login(loginReq)
 
 	if err != nil {
-		resp := helper.Response("The Username or Password is Incorrect", http.StatusBadRequest, nil)
+		resp := helper.Response("Username atau password salah", http.StatusBadRequest, nil)
 
 		ctx.JSON(http.StatusBadRequest, resp)
 

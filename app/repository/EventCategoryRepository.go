@@ -3,6 +3,8 @@ package repository
 import (
 	"etentnode-api/app/entity"
 	"etentnode-api/config"
+
+	"gorm.io/gorm"
 )
 
 type EventCategoryRepository struct {
@@ -34,7 +36,9 @@ func (r *EventCategoryRepository) Insert(EventCategory entity.EventCategory) (en
 func (r *EventCategoryRepository) FindAll(param map[string]interface{}) ([]entity.EventCategory, error) {
 	var EventCategory []entity.EventCategory
 
-	err := r.config.DB.Where(param).Preload("Fields").Preload("Roles.Role").Preload("Types").Find(&EventCategory).Error
+	err := r.config.DB.Where(param).Preload("Fields").Preload("Roles.Role", func(db2 *gorm.DB) *gorm.DB {
+		return db2.Where("is_service = 1")
+	}).Preload("Types").Find(&EventCategory).Error
 
 	if err != nil {
 		return EventCategory, err
@@ -49,7 +53,9 @@ func (r *EventCategoryRepository) FindAll(param map[string]interface{}) ([]entit
 func (r *EventCategoryRepository) FindById(ID int) (entity.EventCategory, error) {
 	var EventCategory entity.EventCategory
 
-	err := r.config.DB.Where("id = ?", ID).Preload("Fields").Preload("Roles.Role").Preload("Types").First(&EventCategory).Error
+	err := r.config.DB.Where("id = ?", ID).Preload("Fields").Preload("Roles.Role", func(db2 *gorm.DB) *gorm.DB {
+		return db2.Where("is_service = 1")
+	}).Preload("Types").First(&EventCategory).Error
 
 	if err != nil {
 		return EventCategory, err

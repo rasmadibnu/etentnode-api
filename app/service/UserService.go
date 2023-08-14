@@ -109,6 +109,7 @@ func (s *UserService) Update(req entity.User, ID int) (entity.User, error) {
 
 	if req.Password != "" {
 		user := entity.User{
+			NIK:         req.NIK,
 			Username:    req.Username,
 			Name:        req.Name,
 			Password:    hash,
@@ -129,6 +130,7 @@ func (s *UserService) Update(req entity.User, ID int) (entity.User, error) {
 		return updateUser, nil
 	} else {
 		user := entity.User{
+			NIK:         req.NIK,
 			Username:    req.Username,
 			Name:        req.Name,
 			PhoneNumber: req.PhoneNumber,

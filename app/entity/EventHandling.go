@@ -19,6 +19,8 @@ type EventHandling struct {
 	Die                 int               `gorm:"column:die;type:int(11)" json:"die"`
 	VictimInvolved      string            `gorm:"column:victim_involved;type:text" json:"victim_involved"`
 	Location            string            `gorm:"column:location;type:text" json:"location"`
+	Lat                 string            `gorm:"column:lat;type:varchar(255)" json:"lat"`
+	Lng                 string            `gorm:"column:lng;type:varchar(255)" json:"lng"`
 	EventCategoryTypeID int               `gorm:"column:event_category_type_id;type:int(11)" json:"event_category_type_id"`
 	EventCategoryType   EventCategoryType `gorm:"foreignKey:EventCategoryTypeID" json:"event_category_type"`
 	CreatedAt           time.Time         `gorm:"column:created_at;type:timestamp" json:"created_at"`

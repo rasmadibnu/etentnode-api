@@ -37,7 +37,9 @@ func (r *EventRepository) FindAll(param map[string]interface{}) ([]entity.Event,
 	var Event []entity.Event
 
 	err := r.config.DB.Where(param).Preload("EventUserHandling.User.Role").Preload("EventCategory", func(db *gorm.DB) *gorm.DB {
-		return db.Preload("Roles.Role").Preload("Types").Preload("Fields")
+		return db.Preload("Roles.Role", func(db2 *gorm.DB) *gorm.DB {
+			return db2.Where("is_service = 1")
+		}).Preload("Types").Preload("Fields")
 	}).Preload("EventHandling", func(db *gorm.DB) *gorm.DB {
 		return db.Preload("EventCategoryType").Preload("UserCreate.Role")
 	}).Preload("EventCategoryType").Preload("Status").Preload("UserCreate.Role").Preload("UserAssign.Role").Preload("UserUpdate.Role").Order("created_at desc").Find(&Event).Error
@@ -56,7 +58,9 @@ func (r *EventRepository) ListByUserAssign(param map[string]interface{}, id stri
 	var Event []entity.Event
 
 	err := r.config.DB.Where(param).Preload("EventUserHandling.User.Role").Preload("EventCategory", func(db *gorm.DB) *gorm.DB {
-		return db.Preload("Roles.Role").Preload("Types").Preload("Fields")
+		return db.Preload("Roles.Role", func(db2 *gorm.DB) *gorm.DB {
+			return db2.Where("is_service = 1")
+		}).Preload("Types").Preload("Fields")
 	}).Preload("EventHandling", func(db *gorm.DB) *gorm.DB {
 		return db.Preload("EventCategoryType").Preload("UserCreate.Role")
 	}).Preload("EventCategoryType").Preload("Status").Preload("UserCreate.Role").Preload("UserAssign.Role").Preload("UserUpdate.Role").Order("created_at desc").Find(&Event, "id in (select event_id from tr_event_user_handling where user_id = ?)", id).Error
@@ -75,7 +79,9 @@ func (r *EventRepository) FindById(ID int) (entity.Event, error) {
 	var Event entity.Event
 
 	err := r.config.DB.Preload("EventUserHandling.User.Role").Preload("UserAssign.Role").Preload("EventCategory", func(db *gorm.DB) *gorm.DB {
-		return db.Preload("Roles.Role").Preload("Types").Preload("Fields")
+		return db.Preload("Roles.Role", func(db2 *gorm.DB) *gorm.DB {
+			return db2.Where("is_service = 1")
+		}).Preload("Types").Preload("Fields")
 	}).Preload("EventHandling", func(db *gorm.DB) *gorm.DB {
 		return db.Preload("EventCategoryType").Preload("UserCreate.Role")
 	}).Preload("EventCategoryType").Preload("Status").Preload("UserCreate.Role").Preload("UserAssign.Role").Preload("UserUpdate.Role").Where("id = ?", ID).First(&Event).Error

@@ -8,6 +8,7 @@ import (
 
 type User struct {
 	ID          int64          `gorm:"column:id;type:bigint(20);primary_key;AUTO_INCREMENT" json:"id"`
+	NIK         string         `gorm:"column:nik;type:varchar(50)" json:"nik"`
 	Username    string         `gorm:"column:username;type:varchar(100);NOT NULL" json:"username"`
 	Name        string         `gorm:"column:name;type:varchar(100);NOT NULL" json:"name"`
 	PhoneNumber string         `gorm:"column:phone_number;type:varchar(100);NOT NULL" json:"phone_number"`

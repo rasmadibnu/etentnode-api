@@ -113,6 +113,8 @@ func (controller EventHandlingController) Store(ctx *gin.Context) {
 	req.VictimInvolved = ctx.PostForm("victim_involved")
 	req.EventCategoryTypeID, err = strconv.Atoi(ctx.PostForm("event_category_type_id"))
 	req.Location = ctx.PostForm("location")
+	req.Lat = ctx.PostForm("lat")
+	req.Lng = ctx.PostForm("lng")
 	req.CreatedBy = int(user_id.(float64))
 	req.Image = newFileName
 
@@ -216,6 +218,8 @@ func (controller EventHandlingController) Update(ctx *gin.Context) {
 	req.VictimInvolved = ctx.PostForm("victim_involved")
 	req.EventCategoryTypeID, err = strconv.Atoi(ctx.PostForm("event_category_type_id"))
 	req.Location = ctx.PostForm("location")
+	req.Lat = ctx.PostForm("lat")
+	req.Lng = ctx.PostForm("lng")
 	EventHandling, err := controller.service.Update(req, ID)
 
 	if err != nil {

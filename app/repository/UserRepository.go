@@ -49,7 +49,7 @@ func (r *UserRepository) FindAll(m map[string]interface{}) ([]entity.User, error
 func (r *UserRepository) FindByUsername(username string) (entity.User, error) {
 	var user entity.User
 
-	err := r.config.DB.Where("role_id != ?", "3").Where("username = ?", username).Preload("Role").First(&user).Error
+	err := r.config.DB.Where("username = ?", username).Preload("Role").First(&user).Error
 
 	if err != nil {
 		return user, err
@@ -64,7 +64,7 @@ func (r *UserRepository) FindByUsername(username string) (entity.User, error) {
 func (r *UserRepository) FindByEmail(email string) (entity.User, error) {
 	var user entity.User
 
-	err := r.config.DB.Where("role_id != ?", "3").Where("email = ?", email).Preload("Role").First(&user).Error
+	err := r.config.DB.Where("email = ?", email).Preload("Role").First(&user).Error
 
 	if err != nil {
 		return user, err
@@ -78,7 +78,7 @@ func (r *UserRepository) FindByEmail(email string) (entity.User, error) {
 // @Author : rasmadibnu
 func (r *UserRepository) FindById(ID int) (entity.User, error) {
 	var user entity.User
-	err := r.config.DB.Preload("Role").Where("role_id != ?", "3").Where("id = ?", ID).First(&user).Error
+	err := r.config.DB.Preload("Role").Where("id = ?", ID).First(&user).Error
 
 	if err != nil {
 		return user, err
@@ -91,7 +91,7 @@ func (r *UserRepository) FindById(ID int) (entity.User, error) {
 // @Description : Update user
 // @Author : rasmadibnu
 func (r *UserRepository) Update(user entity.User, ID int) (entity.User, error) {
-	err := r.config.DB.Where("role_id != ?", "3").Where("id = ?", ID).Updates(&user).Error
+	err := r.config.DB.Where("id = ?", ID).Updates(&user).Error
 
 	if err != nil {
 		return user, err
@@ -106,7 +106,7 @@ func (r *UserRepository) Update(user entity.User, ID int) (entity.User, error) {
 func (r *UserRepository) Delete(ID int) (bool, error) {
 	var user entity.User
 
-	err := r.config.DB.Where("role_id != ?", "3").Where("id = ?", ID).Delete(&user).Error
+	err := r.config.DB.Where("id = ?", ID).Delete(&user).Error
 
 	if err != nil {
 		return false, err
